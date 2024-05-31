@@ -1,17 +1,18 @@
 {
-  "name": "eth-yellow",
+  "name": "eth-yellow-api",
   "version": "1.0.0",
   "author": "Dagim G. Astatkie",
   "description": "Backend for EthYellow",
   "main": "server.js",
   "scripts": {
+    "dev:express": "nodemon server/server.js",
     "dev": "docker-compose up -d",
     "dev:log": "docker-compose up -d && yarn all:log",
     "down": "docker-compose down",
     "restart": "docker-compose restart",
     "all:log": "docker-compose logs -f --tail 100",
-    "express:log": "docker-compose logs -f --tail 100 contactease_express",
-    "graphql:log": "docker-compose logs -f --tail 100 contactease_graphql_engine",
+    "express:log": "docker-compose logs -f --tail 100 yellow_express",
+    "graphql:log": "docker-compose logs -f --tail 100 yellow_graphql_engine",
     "hasura:init": "hasura init hasura",
     "hasura": "hasura --project hasura --envfile ../.env",
     "hasura:prod": "hasura --project hasura --envfile ../.env.prod",
@@ -22,24 +23,26 @@
     "migrate:status": "yarn hasura migrate status",
     "migrate:status:prod": "yarn hasura:prod migrate status",
     "seed": "yarn hasura seeds apply",
-    "rebuild": "docker-compose build contactease_express && yarn dev"
-  },
-  "devDependencies": {
-    "@types/body-parser": "^1.19.2",
-    "@types/express": "^4.17.17",
-    "@types/morgan": "^1.9.4"
+    "rebuild": "docker-compose build yellow_express && yarn dev"
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "1.6.6",
+    "apollo-link-http": "^1.5.17",
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.17.1",
-    "hasura-cli": "2.0.0",
-    "helmet": "^4.6.0",
-    "jsonwebtoken": "^9.0.0",
+    "cross-fetch": "^3.0.6",
+    "date-fns": "^2.28.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.17.3",
+    "file-type": "^16.2.0",
+    "global": "^4.4.0",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0",
-    "node-fetch": "^2.6.1"
+    "nodemon": "^3.1.2",
+    "uuid": "^8.3.2"
   },
   "keywords": [],
   "license": "ISC"

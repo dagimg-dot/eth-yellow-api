@@ -2,20 +2,22 @@ FROM node:lts-alpine3.9
 
 WORKDIR /usr/src/app
 
-RUN mkdir docker-uploads
+ARG PORT
 
-ARG EXPRESS_PORT
-
-EXPOSE ${EXPRESS_PORT}
+EXPOSE ${PORT}
 
 RUN apk add yarn
 
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 RUN yarn install
 
-COPY server.js .
+COPY server ./server/
 
-COPY express ./express/
+COPY config ./config/
 
-CMD ["node", "server.js"]
+COPY middlewares ./middlewares/
+
+COPY controllers ./controllers/
+
+CMD ["node", "server/server.js"]
