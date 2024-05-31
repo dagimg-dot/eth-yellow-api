@@ -25,6 +25,9 @@ services:
     environment:
       - EXPRESS_PORT=${EXPRESS_PORT}
       - HASURA_ACTION_SECRET=${HASURA_ACTION_SECRET}
+      - HASURA_GRAPHQL_URL=${HASURA_GRAPHQL_URL}
+      - HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}
+      - AUTH_SERVER_SECRET=${AUTH_SERVER_SECRET}
       - NODE_ENV=${NODE_ENV:-development}
   yellow_graphql_engine:
     container_name: yellow_graphql_engine

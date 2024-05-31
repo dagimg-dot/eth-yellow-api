@@ -20,4 +20,6 @@ COPY middlewares ./middlewares/
 
 COPY controllers ./controllers/
 
+COPY utils ./utils/
+
 CMD ["node", "server/server.js"]

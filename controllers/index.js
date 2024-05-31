@@ -1,1 +1,5 @@
-// contrllers go here
+const signup = require("./signup");
+
+module.exports = {
+  signup,
+};
