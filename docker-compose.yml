@@ -24,6 +24,7 @@ services:
     restart: always
     environment:
       - EXPRESS_PORT=${EXPRESS_PORT}
+      - HASURA_ACTION_SECRET=${HASURA_ACTION_SECRET}
       - NODE_ENV=${NODE_ENV:-development}
   yellow_graphql_engine:
     container_name: yellow_graphql_engine
