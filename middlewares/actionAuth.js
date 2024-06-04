@@ -5,6 +5,8 @@ const actionAuth = (req, res, next) => {
     next();
   } else {
     res.json({
+      success: false,
+      message: "Unauthorized",
       errors: {
         message: "Unauthorized",
       },
