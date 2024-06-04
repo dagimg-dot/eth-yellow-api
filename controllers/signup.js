@@ -1,7 +1,29 @@
 const { ApolloError } = require("apollo-boost");
-const apollo_client = require("../config/apollo");
+const apollo = require("../config/apollo");
 const gql = require("graphql-tag");
 const { encryptPassword } = require("../utils/passwordUtils");
+
+const ADD_USER = gql`
+  mutation (
+    $username: String!
+    $email: String!
+    $password: String!
+    $firstname: String!
+    $lastname: String!
+  ) {
+    insert_users_one(
+      object: {
+        username: $username
+        email: $email
+        password: $password
+        first_name: $firstname
+        last_name: $lastname
+      }
+    ) {
+      user_id
+    }
+  }
+`;
 
 const signup = async (req, res) => {
   const { username, email, password, first_name, last_name } =
@@ -18,28 +40,8 @@ const signup = async (req, res) => {
   };
 
   try {
-    const { data, errors } = await apollo_client.mutate({
-      mutation: gql`
-        mutation (
-          $username: String!
-          $email: String!
-          $password: String!
-          $firstname: String!
-          $lastname: String!
-        ) {
-          insert_users_one(
-            object: {
-              username: $username
-              email: $email
-              password: $password
-              first_name: $firstname
-              last_name: $lastname
-            }
-          ) {
-            user_id
-          }
-        }
-      `,
+    const { data } = await apollo.mutate({
+      mutation: ADD_USER, 
       variables: {
         username: user.username,
         email: user.email,
@@ -50,17 +52,29 @@ const signup = async (req, res) => {
     });
 
     res.status(200).json({
+      success: true,
+      message: "User created successfully",
+      errors: null,
       user_id: data.insert_users_one.user_id,
     });
   } catch (error) {
     if (error instanceof ApolloError && error.graphQLErrors.length > 0) {
       return res.json({
-        errors: {
-          message: "Error",
-          errors: error.graphQLErrors,
-        },
+        success: false,
+        message: "Error",
+        errors: error.graphQLErrors,
+        user_id: null,
       });
     }
+
+    return res.json({
+      errors: {
+        success: false,
+        message: "Error",
+        errors: [error],
+        user_id: null,
+      },
+    });
   }
 };
 
