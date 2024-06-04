@@ -28,6 +28,7 @@ services:
       - HASURA_GRAPHQL_URL=${HASURA_GRAPHQL_URL}
       - HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}
       - AUTH_SERVER_SECRET=${AUTH_SERVER_SECRET}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - NODE_ENV=${NODE_ENV:-development}
   yellow_graphql_engine:
     container_name: yellow_graphql_engine

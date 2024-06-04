@@ -3,12 +3,11 @@ const express = require("express");
 const body_parser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
-const { signup } = require("../controllers");
+const { signup, login } = require("../controllers");
 
 // Middlewares
 
 const actionAuth = require("../middlewares/actionAuth");
-// const jwt = require("../middlewares/jwt");
 
 const app = express();
 
@@ -19,6 +18,7 @@ app.use(body_parser.json({ limit: "10mb" }));
 // Routes
 
 app.post("/signup", actionAuth, signup);
+app.post("/login", actionAuth, login);
 
 app.listen(port, () => {
   console.log(`Express server listening on ${port}`);
