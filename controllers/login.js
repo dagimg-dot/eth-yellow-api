@@ -97,11 +97,9 @@ const login = async (req, res) => {
     }
 
     return res.json({
-      errors: {
-        success: false,
-        message: "Error",
-        errors: [error],
-      },
+      success: false,
+      message: "Error",
+      errors: [error],
     });
   }
 };
