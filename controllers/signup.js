@@ -41,7 +41,7 @@ const signup = async (req, res) => {
 
   try {
     const { data } = await apollo.mutate({
-      mutation: ADD_USER, 
+      mutation: ADD_USER,
       variables: {
         username: user.username,
         email: user.email,
