@@ -24,7 +24,7 @@ const generateToken = (user) => {
     sub: user.user_id,
     username: user.username,
     iat: Date.now() / 1000,
-    iss: user.email,
+    iss: user.username,
     "https://hasura.io/jwt/claims": {
       "x-hasura-allowed-roles": ["user", "anonymous"],
       "x-hasura-user-id": "" + user.user_id,
