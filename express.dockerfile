@@ -22,4 +22,6 @@ COPY controllers ./controllers/
 
 COPY utils ./utils/
 
+COPY graphql ./graphql/
+
 CMD ["node", "server/server.js"]
