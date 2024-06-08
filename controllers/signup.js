@@ -1,29 +1,9 @@
 const { ApolloError } = require("apollo-boost");
 const apollo = require("../config/apollo");
-const gql = require("graphql-tag");
 const { encryptPassword } = require("../utils/passwordUtils");
-
-const ADD_USER = gql`
-  mutation (
-    $username: String!
-    $email: String!
-    $password: String!
-    $firstname: String!
-    $lastname: String!
-  ) {
-    insert_users_one(
-      object: {
-        username: $username
-        email: $email
-        password: $password
-        first_name: $firstname
-        last_name: $lastname
-      }
-    ) {
-      user_id
-    }
-  }
-`;
+const ADD_USER = require("../graphql/mutations/addUser");
+const { createSignupResponse } = require("../utils/response");
+const { extensions } = require("file-type");
 
 const signup = async (req, res) => {
   const { username, email, password, first_name, last_name } =
@@ -51,30 +31,54 @@ const signup = async (req, res) => {
       },
     });
 
-    res.status(200).json({
-      success: true,
-      message: "User created successfully",
-      errors: null,
-      user_id: data.insert_users_one.user_id,
-    });
+    res.json(
+      createSignupResponse({
+        user_id: data.insert_users_one.user_id,
+        message: "Signup successful",
+        success: true,
+      })
+    );
   } catch (error) {
+    console.log("Error: ", error);
     if (error instanceof ApolloError && error.graphQLErrors.length > 0) {
-      return res.json({
-        success: false,
-        message: "Error",
-        errors: error.graphQLErrors,
-        user_id: null,
-      });
+      if (error.graphQLErrors[0].extensions.code === "constraint-violation") {
+        return res.json(
+          createSignupResponse({
+            message: "Signup failed",
+            errors: [
+              {
+                message: "User already exists",
+                extensions: {
+                  code: "user_exists",
+                },
+              },
+            ],
+          })
+        );
+      }
+
+      return res.json(
+        createSignupResponse({
+          message: "Something went wrong",
+          errors: error.graphQLErrors,
+        })
+      );
     }
 
-    return res.json({
-      errors: {
-        success: false,
-        message: "Error",
-        errors: [error],
-        user_id: null,
-      },
-    });
+    return res.json(
+      createSignupResponse({
+        message: "Something went wrong",
+        errors: [
+          {
+            message: "Unknown error occurred",
+            extensions: {
+              message: error.message,
+              code: "unknown_error",
+            },
+          },
+        ],
+      })
+    );
   }
 };
 

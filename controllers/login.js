@@ -1,48 +1,18 @@
-const { ApolloError } = require("apollo-boost");
 const apollo_client = require("../config/apollo");
-const gql = require("graphql-tag");
 const { comparePassword } = require("../utils/passwordUtils");
-const jwt = require("jsonwebtoken");
-
-const GET_USER = gql`
-  query ($email: String!) {
-    users(where: { email: { _eq: $email } }) {
-      user_id
-      password
-      username
-    }
-  }
-`;
+const { createLoginResponse } = require("../utils/response");
+const GET_USER = require("../graphql/queries/getUser");
+const { generateToken } = require("../utils/tokenUtils");
 
 const updateUserObj = (user, _user) => {
   user.user_id = _user.user_id;
   user.username = _user.username;
 };
 
-const generateToken = (user) => {
-  const hasura_token = {
-    sub: user.user_id,
-    username: user.username,
-    iat: Date.now() / 1000,
-    iss: user.username,
-    "https://hasura.io/jwt/claims": {
-      "x-hasura-allowed-roles": ["user", "anonymous"],
-      "x-hasura-user-id": "" + user.user_id,
-      "x-hasura-username": "" + user.username,
-      "x-hasura-default-role": ["user", "anonymous"],
-    },
-    exp: Math.floor(Date.now() / 1000) + 28800,
-  };
-
-  const accessToken = jwt.sign(hasura_token, process.env.JWT_SECRET_KEY, {
-    algorithm: "HS256",
-  });
-
-  return accessToken;
-};
-
 const login = async (req, res) => {
   const { email, password } = req.body.input.params;
+
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   const user = {
     user_id: null,
@@ -58,12 +28,20 @@ const login = async (req, res) => {
       },
     });
 
+    const authFailedResponse = createLoginResponse({
+      message: "Login failed",
+      errors: [
+        {
+          message: "Invalid email or password",
+          extensions: {
+            code: "auth_failed",
+          },
+        },
+      ],
+    });
+
     if (data.users.length === 0) {
-      return res.json({
-        success: false,
-        message: "User not found",
-        errors: null,
-      });
+      return res.json(authFailedResponse);
     }
 
     updateUserObj(user, data.users[0]);
@@ -71,36 +49,35 @@ const login = async (req, res) => {
     const isCorrect = await comparePassword(password, data.users[0].password);
 
     if (!isCorrect) {
-      return res.json({
-        success: false,
-        message: "Invalid email or password",
-        errors: null,
-      });
+      return res.json(authFailedResponse);
     }
 
     const token = generateToken(user);
 
-    res.json({
-      success: true,
-      errors: null,
-      message: "You are successfully logged in",
-      accessToken: token,
-    });
+    res.json(
+      createLoginResponse({
+        accessToken: token,
+        message: "Login successful",
+        success: true,
+      })
+    );
   } catch (error) {
     console.error(error);
     if (error instanceof ApolloError && error.graphQLErrors.length > 0) {
-      return res.json({
-        success: false,
-        message: "Error",
-        errors: error.graphQLErrors,
-      });
+      return res.json(
+        createLoginResponse({
+          message: "Something went wrong",
+          errors: error.graphQLErrors,
+        })
+      );
     }
 
-    return res.json({
-      success: false,
-      message: "Error",
-      errors: [error],
-    });
+    return res.json(
+      createLoginResponse({
+        message: "Something went wrong",
+        errors: [error],
+      })
+    );
   }
 };
 
