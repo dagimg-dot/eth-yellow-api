@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 let secret_key = process.env.AUTH_SERVER_SECRET;
 
-module.exports = function (req, res, next) {
+const jwt = (req, res, next) => {
   let authorization = req.headers.authorization;
 
   if (authorization) {
@@ -30,3 +30,5 @@ module.exports = function (req, res, next) {
 
   next();
 };
+
+module.exports = jwt;
