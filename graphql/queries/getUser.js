@@ -6,6 +6,8 @@ const GET_USER = gql`
       user_id
       password
       username
+      first_name
+      last_name
     }
   }
 `;

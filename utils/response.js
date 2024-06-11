@@ -1,5 +1,6 @@
 function createLoginResponse({
   accessToken = null,
+  user = null,
   message = "",
   success = false,
   errors = [],
@@ -9,6 +10,7 @@ function createLoginResponse({
     message,
     success,
     errors,
+    user,
   };
 }
 

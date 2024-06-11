@@ -7,6 +7,8 @@ const { generateToken } = require("../utils/tokenUtils");
 const updateUserObj = (user, _user) => {
   user.user_id = _user.user_id;
   user.username = _user.username;
+  user.first_name = _user.first_name;
+  user.last_name = _user.last_name;
 };
 
 const login = async (req, res) => {
@@ -59,6 +61,7 @@ const login = async (req, res) => {
         accessToken: token,
         message: "Login successful",
         success: true,
+        user,
       })
     );
   } catch (error) {
