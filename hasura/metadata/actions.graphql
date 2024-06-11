@@ -1,0 +1,77 @@
+type Mutation {
+  login(
+    params: LoginInput!
+  ): LoginResponse
+}
+
+type Mutation {
+  signup(
+    params: SignUpInput!
+  ): SignUpResponse
+}
+
+input signupInput {
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+  username: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  username: String!
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+}
+
+type UserOutput {
+  user_id: uuid!
+}
+
+type signupOutput {
+  user_id: uuid!
+}
+
+type LoginOutput {
+  user_id: uuid
+  username: String
+  error: String
+  details: [String]
+}
+
+type AuthResponse {
+  accessToken: String
+  success: Boolean
+  error: String
+}
+
+type LoginResponse {
+  accessToken: String
+  success: Boolean
+  message: String
+  errors: [Errors]
+}
+
+type SignUpResponse {
+  success: Boolean
+  message: String
+  errors: [Errors]
+  user_id: String
+}
+
+type Errors {
+  message: String
+  extensions: Extensions
+}
+
+type Extensions {
+  code: String
+}
+

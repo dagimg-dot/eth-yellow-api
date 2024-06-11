@@ -1,6 +1,37 @@
-actions: []
+actions:
+  - name: login
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/login'
+      headers:
+        - name: action_secret
+          value: action_secret
+    permissions:
+      - role: anonymous
+  - name: signup
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/signup'
+      forward_client_headers: true
+      headers:
+        - name: action_secret
+          value: action_secret
+    permissions:
+      - role: user
+      - role: anonymous
 custom_types:
-    enums: []
-    input_objects: []
-    objects: []
-    scalars: []
+  enums: []
+  input_objects:
+    - name: signupInput
+    - name: LoginInput
+    - name: SignUpInput
+  objects:
+    - name: UserOutput
+    - name: signupOutput
+    - name: LoginOutput
+    - name: AuthResponse
+    - name: LoginResponse
+    - name: SignUpResponse
+    - name: Errors
+    - name: Extensions
+  scalars: []

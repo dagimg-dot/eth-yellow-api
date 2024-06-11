@@ -1,0 +1,43 @@
+table:
+  name: businesses
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: owner_id
+array_relationships:
+  - name: business_categories
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: business_categories
+          schema: public
+  - name: contact_details
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: contact_details
+          schema: public
+  - name: images
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: images
+          schema: public
+  - name: locations
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: locations
+          schema: public
+  - name: reviews
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: reviews
+          schema: public
