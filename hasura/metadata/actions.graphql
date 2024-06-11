@@ -57,6 +57,7 @@ type LoginResponse {
   success: Boolean
   message: String
   errors: [Errors]
+  user: User
 }
 
 type SignUpResponse {
@@ -73,5 +74,11 @@ type Errors {
 
 type Extensions {
   code: String
+}
+
+type User {
+  username: String
+  first_name: String
+  last_name: String
 }
 

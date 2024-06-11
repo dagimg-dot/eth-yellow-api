@@ -34,4 +34,5 @@ custom_types:
     - name: SignUpResponse
     - name: Errors
     - name: Extensions
+    - name: User
   scalars: []
