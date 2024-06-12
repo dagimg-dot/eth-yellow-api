@@ -44,21 +44,11 @@ select_permissions:
         - email
         - first_name
         - last_name
-        - password
-        - username
         - user_id
-      filter: {}
-update_permissions:
-  - role: user
-    permission:
-      columns:
-        - email
-        - first_name
-        - last_name
-        - password
         - username
-      filter: {}
-      check: null
+      filter:
+        user_id:
+          _eq: x-hasura-user-id
 delete_permissions:
   - role: user
     permission:
