@@ -18,7 +18,7 @@ array_relationships:
       foreign_key_constraint_on:
         column: business_id
         table:
-          name: contact_details
+          name: contact
           schema: public
   - name: images
     using:

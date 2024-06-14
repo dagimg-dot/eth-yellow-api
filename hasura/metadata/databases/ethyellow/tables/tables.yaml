@@ -1,7 +1,7 @@
 - "!include public_business_categories.yaml"
 - "!include public_businesses.yaml"
 - "!include public_categories.yaml"
-- "!include public_contact_details.yaml"
+- "!include public_contact.yaml"
 - "!include public_images.yaml"
 - "!include public_locations.yaml"
 - "!include public_reviews.yaml"
