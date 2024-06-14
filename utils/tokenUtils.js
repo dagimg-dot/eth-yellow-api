@@ -12,7 +12,7 @@ const generateToken = (user) => {
       "x-hasura-username": "" + user.username,
       "x-hasura-default-role": "user",
     },
-    exp: Math.floor(Date.now() / 1000) + 28800,
+    exp: Math.floor(Date.now() / 1000) + 28800, // 8 hours
   };
 
   const accessToken = jwt.sign(hasura_token, process.env.JWT_SECRET_KEY, {
