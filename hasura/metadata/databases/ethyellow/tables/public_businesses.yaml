@@ -57,6 +57,7 @@ select_permissions:
   - role: anonymous
     permission:
       columns:
+        - business_id
         - created_at
         - description
         - name
