@@ -14,8 +14,6 @@ const updateUserObj = (user, _user) => {
 const login = async (req, res) => {
   const { email, password } = req.body.input.params;
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
   const user = {
     user_id: null,
     username: null,
