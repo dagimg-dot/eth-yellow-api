@@ -47,3 +47,7 @@ update_permissions:
         - id
       filter: {}
       check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}
