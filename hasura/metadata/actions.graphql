@@ -10,6 +10,12 @@ type Mutation {
   ): SignUpResponse
 }
 
+type Mutation {
+  updatePassword(
+    params: PasswordUpdateInput!
+  ): PasswordUpdateResponse!
+}
+
 input signupInput {
   email: String!
   password: String!
@@ -29,6 +35,11 @@ input SignUpInput {
   password: String!
   first_name: String!
   last_name: String!
+}
+
+input PasswordUpdateInput {
+  currentPassword: String!
+  newPassword: String!
 }
 
 type UserOutput {
@@ -81,5 +92,11 @@ type User {
   username: String
   first_name: String
   last_name: String
+}
+
+type PasswordUpdateResponse {
+  success: Boolean
+  message: String
+  errors: [Errors]
 }
 

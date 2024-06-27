@@ -19,12 +19,23 @@ actions:
     permissions:
       - role: user
       - role: anonymous
+  - name: updatePassword
+    definition:
+      kind: synchronous
+      handler: '{{ACTION_BASE_URL}}/update-password'
+      forward_client_headers: true
+      headers:
+        - name: action_secret
+          value: action_secret
+    permissions:
+      - role: user
 custom_types:
   enums: []
   input_objects:
     - name: signupInput
     - name: LoginInput
     - name: SignUpInput
+    - name: PasswordUpdateInput
   objects:
     - name: UserOutput
     - name: signupOutput
@@ -35,4 +46,5 @@ custom_types:
     - name: Errors
     - name: Extensions
     - name: User
+    - name: PasswordUpdateResponse
   scalars: []

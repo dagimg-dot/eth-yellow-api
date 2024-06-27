@@ -28,7 +28,20 @@ function createSignupResponse({
   };
 }
 
+function createUpdatePasswordResponse({
+  message = "",
+  success = false,
+  errors = [],
+}) {
+  return {
+    message,
+    success,
+    errors,
+  };
+}
+
 module.exports = {
   createLoginResponse,
   createSignupResponse,
+  createUpdatePasswordResponse,
 };

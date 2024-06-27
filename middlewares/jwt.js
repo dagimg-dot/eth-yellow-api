@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
+const { createUpdatePasswordResponse } = require("../utils/response");
 
-let secret_key = process.env.AUTH_SERVER_SECRET;
+let secret_key = process.env.JWT_SECRET_KEY;
 
-const jwt = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
   let authorization = req.headers.authorization;
 
   if (authorization) {
@@ -20,15 +21,37 @@ const jwt = (req, res, next) => {
 
       return next();
     } catch (error) {
-      console.error(error);
-
-      return res.status(401).send({
-        code: "invalid_token",
-      });
+      return res.send(
+        createUpdatePasswordResponse({
+          message: "Invalid token",
+          errors: [
+            {
+              message: "Invalid token",
+              extensions: {
+                code: "invalid_token",
+              },
+            },
+          ],
+        })
+      );
     }
+  } else {
+    return res.send(
+      createUpdatePasswordResponse({
+        message: "No token provided",
+        errors: [
+          {
+            message: "No token provided",
+            extensions: {
+              code: "no_token",
+            },
+          },
+        ],
+      })
+    );
   }
 
   next();
 };
 
-module.exports = jwt;
+module.exports = authenticateToken;
