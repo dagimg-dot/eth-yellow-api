@@ -3,7 +3,6 @@ const apollo = require("../config/apollo");
 const { encryptPassword } = require("../utils/passwordUtils");
 const ADD_USER = require("../graphql/mutations/addUser");
 const { createSignupResponse } = require("../utils/response");
-const { extensions } = require("file-type");
 
 const signup = async (req, res) => {
   const { username, email, password, first_name, last_name } =

@@ -70,10 +70,10 @@ const updatePassword = async (req, res) => {
     if (!isCorrect) {
       return res.json(
         createUpdatePasswordResponse({
-          message: "Invalid password",
+          message: "Invalid current password",
           errors: [
             {
-              message: "Invalid password",
+              message: "Invalid current password",
               extensions: {
                 code: "invalid_password",
               },
@@ -84,6 +84,8 @@ const updatePassword = async (req, res) => {
     }
 
     const isPersisted = await persistPassword(userId, newPassword);
+
+    console.log(isPersisted);
 
     if (!isPersisted) {
       return res.json(internalErrorResponse);
