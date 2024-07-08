@@ -1,0 +1,53 @@
+table:
+  name: business_categories
+  schema: public
+object_relationships:
+  - name: business
+    using:
+      foreign_key_constraint_on: business_id
+  - name: category
+    using:
+      foreign_key_constraint_on: category_id
+insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns:
+        - business_id
+        - category_id
+        - id
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - business_id
+        - category_id
+        - id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - business_id
+        - category_id
+        - id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - business_id
+        - category_id
+        - id
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - business_id
+        - category_id
+        - id
+      filter: {}
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}

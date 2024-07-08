@@ -1,0 +1,75 @@
+table:
+  name: users
+  schema: public
+array_relationships:
+  - name: businesses
+    using:
+      foreign_key_constraint_on:
+        column: owner_id
+        table:
+          name: businesses
+          schema: public
+  - name: reviews
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: reviews
+          schema: public
+insert_permissions:
+  - role: anonymous
+    permission:
+      check: {}
+      columns:
+        - email
+        - first_name
+        - last_name
+        - password
+        - username
+        - user_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - email
+        - first_name
+        - last_name
+        - password
+        - phone_number
+        - user_id
+        - username
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - email
+        - first_name
+        - last_name
+        - password
+        - phone_number
+        - user_id
+        - username
+      filter:
+        user_id:
+          _eq: x-hasura-user-id
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - email
+        - first_name
+        - last_name
+        - password
+        - phone_number
+        - updated_at
+        - username
+      filter:
+        user_id:
+          _eq: x-hasura-user-id
+      check:
+        user_id:
+          _eq: x-hasura-user-id
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}

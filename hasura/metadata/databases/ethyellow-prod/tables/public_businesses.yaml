@@ -1,0 +1,93 @@
+table:
+  name: businesses
+  schema: public
+object_relationships:
+  - name: user
+    using:
+      foreign_key_constraint_on: owner_id
+array_relationships:
+  - name: business_categories
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: business_categories
+          schema: public
+  - name: contact_details
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: contact
+          schema: public
+  - name: images
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: images
+          schema: public
+  - name: locations
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: locations
+          schema: public
+  - name: reviews
+    using:
+      foreign_key_constraint_on:
+        column: business_id
+        table:
+          name: reviews
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        owner_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - created_at
+        - description
+        - name
+        - owner_id
+        - updated_at
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - business_id
+        - created_at
+        - description
+        - name
+        - owner_id
+        - updated_at
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - business_id
+        - created_at
+        - description
+        - name
+        - owner_id
+        - updated_at
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - description
+        - name
+      filter: {}
+      check:
+        owner_id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        owner_id:
+          _eq: X-Hasura-User-Id

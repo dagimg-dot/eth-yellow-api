@@ -1,0 +1,28 @@
+table:
+  name: categories
+  schema: public
+array_relationships:
+  - name: business_categories
+    using:
+      foreign_key_constraint_on:
+        column: category_id
+        table:
+          name: business_categories
+          schema: public
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - name
+        - description
+        - updated_at
+        - category_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - name
+        - description
+        - updated_at
+        - category_id
+      filter: {}

@@ -1,0 +1,55 @@
+table:
+  name: contact
+  schema: public
+object_relationships:
+  - name: business
+    using:
+      foreign_key_constraint_on: business_id
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - social_media
+        - email
+        - phone_number
+        - website
+        - business_id
+        - contact_id
+select_permissions:
+  - role: anonymous
+    permission:
+      columns:
+        - social_media
+        - email
+        - phone_number
+        - website
+        - business_id
+        - contact_id
+      filter: {}
+  - role: user
+    permission:
+      columns:
+        - social_media
+        - email
+        - phone_number
+        - website
+        - business_id
+        - contact_id
+      filter: {}
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - social_media
+        - email
+        - phone_number
+        - website
+        - business_id
+        - contact_id
+      filter: {}
+      check: {}
+delete_permissions:
+  - role: user
+    permission:
+      filter: {}
